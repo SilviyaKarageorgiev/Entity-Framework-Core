@@ -1,2 +1,2 @@
 # Entity-Framework-Core
-Entity Framework Core Course @ SoftUni February 2023
+Entity Framework Core Course February 2023 @ SoftUni
