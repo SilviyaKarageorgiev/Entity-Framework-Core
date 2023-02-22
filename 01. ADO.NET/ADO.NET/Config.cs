@@ -1,7 +1,10 @@
-﻿namespace P02.VillainNames
+﻿namespace ADO.NET
 {
-    public static class Config
+    internal static class Config
     {
+
         public const string ConnectionString = @"Server=DESKTOP-OOL5FKL\SQLEXPRESS;Database=MinionsDB;Integrated Security=True";
+
+        //TrustSeverCertificate=True
     }
 }
