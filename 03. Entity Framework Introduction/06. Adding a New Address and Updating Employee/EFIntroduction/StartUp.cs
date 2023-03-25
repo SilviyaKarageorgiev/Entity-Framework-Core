@@ -23,7 +23,7 @@ public class StartUp
             TownId = 4
         };
         
-        //context.Addresses.Add(newAddress) --> this is the way to add the address to db. We do not do it because we do this -> employee!.Address = newAddress and automatic db add the new address
+        //context.Addresses.Add(newAddress) --> this is the way to add the address to db. We don't do it because we do this -> employee!.Address = newAddress; db automatically adds the address!
 
         Employee? employee = context.Employees
             .FirstOrDefault(e => e.LastName == "Nakov");
