@@ -39,7 +39,6 @@ public class StartUp
             sb.AppendLine(p.Name)
               .AppendLine(p.Description)
               .AppendLine(p.StartDate);
-
         }
 
         return sb.ToString().TrimEnd();
