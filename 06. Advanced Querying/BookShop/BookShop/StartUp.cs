@@ -13,9 +13,9 @@
             using var db = new BookShopContext();
             //DbInitializer.ResetDatabase(db);
 
-            string input = Console.ReadLine()!;
-            string result = GetBooksByAuthor(db, input);
-            Console.WriteLine(result);
+            int input = int.Parse(Console.ReadLine())!;
+            int result = CountBooks(db, input);
+            Console.WriteLine($"There are {result} books with longer title than {input} symbols");
         }
 
         // Problem 02
@@ -175,6 +175,16 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        // Problem 11
+        public static int CountBooks(BookShopContext context, int lengthCheck)
+        {
+            var count = context.Books
+                .Where(b => b.Title.Length > lengthCheck)
+                .Count();
+
+            return count;
         }
     }
 }
