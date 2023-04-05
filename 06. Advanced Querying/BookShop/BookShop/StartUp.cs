@@ -3,6 +3,7 @@
     using BookShop.Models.Enums;
     using Data;
     using Initializer;
+    using Microsoft.EntityFrameworkCore;
     using System.Globalization;
     using System.Text;
 
@@ -13,9 +14,9 @@
             using var db = new BookShopContext();
             //DbInitializer.ResetDatabase(db);
 
-            int input = int.Parse(Console.ReadLine())!;
-            int result = CountBooks(db, input);
-            Console.WriteLine($"There are {result} books with longer title than {input} symbols");
+            //int input = int.Parse(Console.ReadLine())!;
+            string result = CountCopiesByAuthor(db);
+            Console.WriteLine(result);
         }
 
         // Problem 02
@@ -185,6 +186,29 @@
                 .Count();
 
             return count;
+        }
+
+        // Problem 12
+        public static string CountCopiesByAuthor(BookShopContext context)
+        {
+            var authors = context.Authors
+                .Select(a => new
+                {
+                    AuthorName = $"{a.FirstName} {a.LastName}",
+                    Copies = a.Books.Sum(b => b.Copies)
+                })
+                .OrderByDescending(b => b.Copies)
+                .AsNoTracking()
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var a in authors)
+            {
+                sb.AppendLine($"{a.AuthorName} - {a.Copies}");
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
