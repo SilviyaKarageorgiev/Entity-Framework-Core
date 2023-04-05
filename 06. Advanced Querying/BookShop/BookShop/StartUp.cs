@@ -14,7 +14,7 @@
             //DbInitializer.ResetDatabase(db);
 
             string input = Console.ReadLine()!;
-            string result = GetAuthorNamesEndingIn(db, input);
+            string result = GetBooksByAuthor(db, input);
             Console.WriteLine(result);
         }
 
@@ -131,6 +131,50 @@
                 .ToArray();
 
             return string.Join(Environment.NewLine, authorNames);
+        }
+
+        // Problem 09
+        public static string GetBookTitlesContaining(BookShopContext context, string input)
+        {
+            var bookTitles = context.Books
+                .Where(b => b.Title.ToLower().Contains(input.ToLower()))
+                .Select(b => b.Title)
+                .OrderBy(b => b)
+                .ToArray();
+
+            return string.Join(Environment.NewLine, bookTitles);
+        }
+
+        // Problem 10
+        public static string GetBooksByAuthor(BookShopContext context, string input)
+        {
+            var authors = context.Authors
+                .Where(a => a.LastName.ToLower().StartsWith(input.ToLower()))
+                .Select(a => new
+                {
+                    a.FirstName,
+                    a.LastName,
+                    Books = a.Books
+                        .Select(b => new
+                        {
+                            BookTitle = b.Title,
+                            BookId = b.BookId
+                        }).OrderBy(b => b.BookId)
+                        .ToArray()
+                })
+                .ToArray();
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var a in authors)
+            {
+                foreach (var b in a.Books)
+                {
+                    sb.AppendLine($"{b.BookTitle} ({a.FirstName} {a.LastName})");
+                }
+            }
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
