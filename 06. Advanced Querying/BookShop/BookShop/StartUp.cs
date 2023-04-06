@@ -15,7 +15,7 @@
             //DbInitializer.ResetDatabase(db);
 
             //int input = int.Parse(Console.ReadLine())!;
-            string result = GetTotalProfitByCategory(db);
+            string result = GetMostRecentBooks(db);
             Console.WriteLine(result);
         }
 
@@ -230,6 +230,40 @@
             foreach (var c in categoriesWithProfit)
             {
                 sb.AppendLine($"{c.CategoryName} ${c.TotalProfit:f2}");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        public static string GetMostRecentBooks(BookShopContext context)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            var categories = context.Categories
+                .OrderBy(c => c.Name)
+                .Select(c => new
+                {
+                    CategoryName = c.Name,
+                    MostRecentBooks = c.CategoryBooks
+                        .OrderByDescending(cb => cb.Book.ReleaseDate)
+                        .Take(3)
+                        .Select(cb => new
+                        {
+                            BookTitle = cb.Book.Title,
+                            ReleaseYear = cb.Book.ReleaseDate.Value.Year
+                        })
+                        .ToArray()
+                })
+                .ToArray();
+
+            foreach (var c in categories)
+            {
+                sb.AppendLine($"--{c.CategoryName}");
+
+                foreach (var b in c.MostRecentBooks)
+                {
+                    sb.AppendLine($"{b.BookTitle} ({b.ReleaseYear})");
+                }
             }
 
             return sb.ToString().TrimEnd();
