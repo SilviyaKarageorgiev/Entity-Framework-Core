@@ -15,8 +15,8 @@
             //DbInitializer.ResetDatabase(db);
 
             //int input = int.Parse(Console.ReadLine())!;
-            string result = GetMostRecentBooks(db);
-            Console.WriteLine(result);
+            IncreasePrices(db);
+            //Console.WriteLine(result);
         }
 
         // Problem 02
@@ -235,6 +235,7 @@
             return sb.ToString().TrimEnd();
         }
 
+        // Problem 14
         public static string GetMostRecentBooks(BookShopContext context)
         {
             StringBuilder sb = new StringBuilder();
@@ -267,6 +268,21 @@
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        // Problem 15
+        public static void IncreasePrices(BookShopContext context)
+        {
+            var increasedBooksPrice = context.Books
+                .Where(b => b.ReleaseDate.Value.Year < 2010)
+                .Select(b => b)
+                .ToArray();
+
+            foreach (var b in increasedBooksPrice)
+            {
+                b.Price += 5;
+            }
+
         }
     }
 }
