@@ -14,9 +14,7 @@
             using var db = new BookShopContext();
             //DbInitializer.ResetDatabase(db);
 
-            //int input = int.Parse(Console.ReadLine())!;
-            IncreasePrices(db);
-            //Console.WriteLine(result);
+            Console.WriteLine(RemoveBooks(db));
         }
 
         // Problem 02
@@ -283,6 +281,20 @@
                 b.Price += 5;
             }
 
+        }
+
+        //Problem 16
+        public static int RemoveBooks(BookShopContext context)
+        {
+            var deletedBooks = context
+                .Books
+                .Where(b => b.Copies < 4200);
+
+            context.Books.RemoveRange(deletedBooks);
+            int countOfRemovedBooks = deletedBooks.Count();
+
+            context.SaveChanges();
+            return countOfRemovedBooks;
         }
     }
 }
