@@ -7,8 +7,8 @@
     {
         public User()
         {
-            this.ProductsSold = new HashSet<Product>();
-            this.ProductsBought = new HashSet<Product>();
+            ProductsSold = new List<Product>();
+            ProductsBought = new List<Product>();
         }
 
         public int Id { get; set; }

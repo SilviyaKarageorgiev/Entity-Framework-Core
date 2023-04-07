@@ -6,7 +6,7 @@
     {
         public Category()
         {
-            this.CategoriesProducts = new HashSet<CategoryProduct>();
+            CategoriesProducts = new List<CategoryProduct>();
         }
 
         public int Id { get; set; }
